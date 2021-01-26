@@ -16,7 +16,7 @@ func (r *mutationResolver) CreateStory(ctx context.Context, input model.NewStory
 	story := &model.Story{
 		Text:     input.Text,
 		ID:       fmt.Sprintf("T%d", rand.Intn(30)),
-		Category: "Test",
+		Category: "Test1",
 		UserID:   input.UserID,
 	}
 	r.stories = append(r.stories, story)

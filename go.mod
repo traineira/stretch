@@ -1,8 +1,10 @@
-module github.com/traineira/stretch
+module stretch
 
 go 1.15
 
 require (
-	github.com/99designs/gqlgen v0.13.0
-	github.com/vektah/gqlparser/v2 v2.1.0
+	github.com/go-chi/chi v1.5.4 // indirect
+	github.com/go-chi/render v1.0.1 // indirect
+	github.com/graphql-go/graphql v0.8.0 // indirect
+	github.com/lib/pq v1.10.4 // indirect
 )

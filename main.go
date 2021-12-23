@@ -5,11 +5,14 @@ import (
 	"log"
 	"net/http"
 
+	"stretch/gql"
+	"stretch/postgres"
+	"stretch/server"
+
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/render"
 	"github.com/graphql-go/graphql"
-	"github.com/traineira/stretch/gql"
-	"github.com/traineira/stretch/postgres"
-	"github.com/traineira/stretch/server"
 )
 
 func main() {
@@ -43,4 +46,16 @@ func initializeAPI() (*chi.Mux, *postgres.Db) {
 	s := server.Server{
 		GqlSchema: &sc,
 	}
+
+	router.Use(
+		render.SetContentType(render.ContentTypeJSON), // set content-type headers as application/json
+		middleware.Logger,          // log api request calls
+		middleware.DefaultCompress, // compress results, mostly gzipping assets and json
+		middleware.StripSlashes,    // match paths with a trailing slash, strip it, and continue routing through the mux
+		middleware.Recoverer,       // recover from panics without crashing server
+	)
+
+	router.Post("/graphql", s.GraphQL())
+
+	return router, db
 }
